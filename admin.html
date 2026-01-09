@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel – JSTFNRSB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; background:#0f172a; color:white; padding:15px; }
+    h2 { text-align:center; }
+    .card {
+      background:#1e293b;
+      padding:15px;
+      border-radius:10px;
+      margin-bottom:12px;
+    }
+    .btn {
+      margin-top:8px;
+      padding:8px 12px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      background:#ef4444;
+      color:white;
+    }
+    .top {
+      display:flex;
+      gap:10px;
+      margin-bottom:15px;
+    }
+    input[type="date"], input[type="password"] {
+      padding:8px;
+      border-radius:6px;
+      border:none;
+      width:100%;
+    }
+  </style>
+</head>
+<body>
+
+<h2>JSTFNRSB – Admin Panel</h2>
+
+<!-- 🔐 PASSWORD SCREEN -->
+<div id="login">
+  <input type="password" id="pass" placeholder="Enter admin password">
+  <button class="btn" style="background:#22c55e" onclick="login()">Login</button>
+</div>
+
+<!-- 📊 ADMIN CONTENT -->
+<div id="panel" style="display:none">
+
+  <div class="top">
+    <input type="date" id="filterDate">
+    <button class="btn" style="background:#22c55e" onclick="render()">Filter</button>
+  </div>
+
+  <p id="report"></p>
+  <div id="list"></div>
+
+</div>
+
+<script>
+  const ADMIN_PASS = "1234"; // 🔐 change password here
+  let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+  function login() {
+    if (document.getElementById("pass").value === ADMIN_PASS) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("panel").style.display = "block";
+      render();
+    } else {
+      alert("Wrong password ❌");
+    }
+  }
+
+  function render() {
+    const list = document.getElementById("list");
+    const report = document.getElementById("report");
+    list.innerHTML = "";
+
+    const date = document.getElementById("filterDate").value;
+    const filtered = date
+      ? bookings.filter(b => b.date === date)
+      : bookings;
+
+    report.innerText = `Total bookings: ${filtered.length}`;
+
+    if (filtered.length === 0) {
+      list.innerHTML = "<p>No bookings.</p>";
+      return;
+    }
+
+    filtered.forEach((b, i) => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <b>${b.name}</b><br>
+        📞 ${b.phone}<br>
+        💈 ${b.service}<br>
+        ✂️ ${b.barber}<br>
+        📅 ${b.date}<br>
+        ⏰ ${b.slot}<br>
+        <button class="btn" onclick="cancel(${i})">❌ Cancel</button>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  function cancel(i) {
+    if (!confirm("Cancel this booking?")) return;
+    bookings.splice(i,1);
+    localStorage.setItem("bookings", JSON.stringify(bookings));
+    render();
+  }
+</script>
+
+</body>
+</html>

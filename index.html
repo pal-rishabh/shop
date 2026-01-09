@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JSTFNRSB | Barber Booking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app">
+    <h1>JSTFNRSB</h1>
+    <p class="tagline">Book your cut. Skip the wait.</p>
+
+    <form id="bookingForm">
+      <input type="text" placeholder="Your Name" required>
+      <input type="tel" placeholder="Mobile Number" required>
+
+      <select required>
+        <option value="">Select Service</option>
+        
+        <option>Haircut</option>
+        <option>Beard Trim</option>
+        <option>Haircut + Beard</option>
+      </select>
+      <select required>
+  <option value="">Select Barber</option>
+  <option>Rahul</option>
+  <option>Aman</option>
+  <option>Sameer</option>
+</select>
+
+
+      <input type="date" required>
+
+      <div class="slots">
+        <button type="button" class="slot">10:00 - 10:30</button>
+        <button type="button" class="slot">10:30 - 11:00</button>
+        <button type="button" class="slot">11:00 - 11:30</button>
+        <button type="button" class="slot">11:30 - 12:00</button>
+      </div>
+
+      <button type="submit" class="pay">Confirm Booking (₹50 Advance)</button>
+      <button type="button" id="waBtn" style="display:none;margin-top:10px;">
+  Send booking to my WhatsApp
+</button>
+
+
+    </form>
+
+    <p class="note">₹50 advance booking. Remaining payment at shop.</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
